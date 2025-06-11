@@ -12,6 +12,10 @@ def main():
 
     dt = 0  # Assuming a fixed delta time for simplicity
     clock = pygame.time.Clock()
+    
+    update_group = pygame.sprite.Group()
+    draw_group = pygame.sprite.Group()
+    Player.containers = update_group, draw_group
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
   
     running = True
@@ -20,11 +24,12 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        player.update(dt)
+        update_group.update(dt)
         pygame.Surface.fill(screen, (0, 0, 0))  
-        player.draw(screen)
-        pygame.display.flip()        
+        for sprite in draw_group:
+            sprite.draw(screen)
+        pygame.display.flip()
         dt = clock.tick() / 1000.0  # Convert milliseconds to seconds
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
     main()
